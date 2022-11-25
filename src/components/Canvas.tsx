@@ -20,14 +20,14 @@ export default function Canvas({ width, height }: CanvasProps) {
 		"wdl-AB-3",
 		"pb-AB",
 		"sa-AB~A-C-4",
-		// // "ab-^CAB",
+		"ab-^CAB",
 
-		//triangle 3 length given
-		// "wdl-AB-4", //Must to bring the drawing to center of the canvas
-		// "trw-ABC-AC-5-BC-4",
+		// //triangle 3 length given
+		//  "wdl-AB-4", //Must to bring the drawing to center of the canvas
+		//  "trw-ABC-AC-5-BC-4",
 
-		//triangle 1 angle & 1 length given
-		// "tra-ABC-^ABC-90-AC-6",
+		// //triangle 1 angle & 1 length given
+		//  "tra-ABC-^ABC-90-AC-6",
 
 		// "c-C-AC",
 		// "px-AB~C",

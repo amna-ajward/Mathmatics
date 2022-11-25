@@ -25,15 +25,26 @@ export default function useLine() {
 		eIsMark,
 	}: drawLineProps) {
 		let c = globalThis.ctx;
-
+		
 		c!.beginPath();
-		c!.moveTo(sx, sy);
-		c!.lineTo(ex, ey);
-		c!.stroke();
-
 		c!.font = "30px Arial";
 		c!.textAlign = "center";
 		c!.textBaseline = "middle";
+		c.lineWidth = 0.5;
+		const maxI =20;
+		let i =0;
+		let amount = 0;
+
+		const myInterval = setInterval(function () {
+			if(i>=maxI) clearInterval(myInterval);
+			amount += 0.05;
+			c.moveTo(sx, sy);
+			c.lineTo( sx + (ex - sx) * amount, sy + (ey - sy) * amount);
+			c.stroke();
+			i+=1;
+
+		}, 30);
+		
 		if (sIsMark) c!.fillText(sname, sx, sy);
 		if (eIsMark) c!.fillText(ename, ex, ey);
 	}
