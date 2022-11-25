@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Button } from "react-bootstrap";
 import useDraw from "../hooks/useDraw";
 import useUpdateLogger from "../hooks/useUpdateLogger";
+import { StepsList } from "./StepsList";
 
 type CanvasProps = {
 	width: number;
@@ -52,8 +53,13 @@ export default function Canvas({ width, height }: CanvasProps) {
 	})
 
 	return (
-		<div >
-			<canvas ref={canvasRef} width={width} height={height}></canvas>
+		<div>
+			<div style={{ display: 'flex' }}>
+				<div style={{ flex: '1' }}><StepsList steps={queries} currentStep={currentStep} onStepClick={(step) => setCurrentStep(step)} /></div>
+				<div style={{ flex: '1' }}><canvas ref={canvasRef} width={width} height={height}></canvas></div>
+
+
+			</div>
 			<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
 				<Button
 					onClick={onDraw}
@@ -74,7 +80,6 @@ export default function Canvas({ width, height }: CanvasProps) {
 				</Button>
 
 			</div>
-
 		</div>
 	);
 }
