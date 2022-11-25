@@ -1,0 +1,188 @@
+[
+	{
+		"type": "WIDTH_DEFINED_LINE",
+		"prefix": "wdl",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": 0,
+				"end_angle": 6.28
+			}
+		]
+	},
+	{
+		"type": "POINT_DEFINED_LINE",
+		"prefix": "pdl",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": 0,
+				"end_angle": 6.28
+			}
+		]
+	},
+	{
+		"type": "CIRCLE",
+		"prefix": "c",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": 0,
+				"end_angle": 6.28
+			}
+		]
+	},
+	{
+		"type": "TRIANGLE",
+		"prefix": "tr",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": -1.05,
+				"end_angle": -0.87
+			},
+			{
+				"id": 2,
+				"start_angle": 1.83,
+				"end_angle": 2.615
+			}
+		]
+	},
+	{
+		"type": "PERPENDICULAR_BISECTOR",
+		"prefix": "pb",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": -1.04,
+				"end_angle": 1.05
+			},
+			{
+				"id": 2,
+				"start_angle": 1.04,
+				"end_angle": 3.13
+			}
+		]
+	},
+	{
+		"type": "SEMICIRCLE",
+		"prefix": "sc",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": -1.57,
+				"end_angle": 1.57
+			}
+		]
+	},
+	{
+		"type": "SIXTY_DEGREE_ANGLE",
+		"prefix": "sa",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": -1.57,
+				"end_angle": 0.52
+			},
+			{
+				"id": 2,
+				"start_angle": -2.16,
+				"end_angle": 1.11
+			}
+		]
+	},
+	{
+		"type": "ANGLE_BISECTOR",
+		"prefix": "ab",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 2,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 3,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 4,
+				"start_angle": 0,
+				"end_angle": 0
+			}
+		]
+	},
+	{
+		"type": "PERPENDICULAR_LINE_POINT",
+		"prefix": "pp",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 2,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 3,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 4,
+				"start_angle": 0,
+				"end_angle": 0
+			}
+		]
+	},
+	{
+		"type": "PERPENDICULAR_EXTERNAL_POINT",
+		"prefix": "px",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 2,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 3,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 4,
+				"start_angle": 0,
+				"end_angle": 0
+			}
+		]
+	},
+	{
+		"type": "PERPENDICULAR_EXTERNAL_POINT",
+		"prefix": "",
+		"order": [
+			{
+				"id": 1,
+				"start_angle": 0,
+				"end_angle": 0
+			},
+			{
+				"id": 2,
+				"start_angle": 0,
+				"end_angle": 0
+			}
+		]
+	}
+]
