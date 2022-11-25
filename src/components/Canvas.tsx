@@ -17,7 +17,7 @@ export default function Canvas({ width, height }: CanvasProps) {
 		"wdl-AB-3",
 		"pb-AB",
 		"sa-AB~A-C-4",
-		// "ab-^CAB",
+		// // "ab-^CAB",
 
 		//triangle 3 length given
 		// "wdl-AB-4", //Must to bring the drawing to center of the canvas
@@ -29,6 +29,7 @@ export default function Canvas({ width, height }: CanvasProps) {
 		// "c-C-AC",
 		// "px-AB~C",
 	]);
+	const [currentStep, setCurrentStep] = useState(queries.length);
 
 	useEffect(() => {
 		if (canvasRef.current) {
@@ -37,20 +38,39 @@ export default function Canvas({ width, height }: CanvasProps) {
 		}
 	}, []);
 
+	useEffect(() => {
+		draw({
+			queries: queries.slice(0, currentStep),
+			canvasDimension: canvasDimension,
+		});
+	}, [currentStep]);
+
 	const canvasDimension = { w: width, h: height };
+
+	const onDraw = () =>
+		draw({
+			queries: queries,
+			canvasDimension: canvasDimension,
+		});
+
 	return (
-		<>
-			<Button
-				onClick={() =>
-					draw({
-						queries: queries,
-						canvasDimension: canvasDimension,
-					})
-				}
-			>
-				Canvas Run
-			</Button>
+		<div>
 			<canvas ref={canvasRef} width={width} height={height}></canvas>
-		</>
+			<div style={{ display: "flex", justifyContent: "space-evenly" }}>
+				<Button onClick={onDraw}>Canvas Run</Button>
+				<Button
+					disabled={currentStep == 1}
+					onClick={() => setCurrentStep(currentStep - 1)}
+				>
+					Previous step
+				</Button>
+				<Button
+					disabled={currentStep == queries.length}
+					onClick={() => setCurrentStep(currentStep + 1)}
+				>
+					Next step
+				</Button>
+			</div>
+		</div>
 	);
 }
