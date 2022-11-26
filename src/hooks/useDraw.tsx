@@ -130,8 +130,6 @@ export default function useDraw() {
 	const { drawArc } = useArc();
 
 	useEffect(() => {
-		console.log("====STEPS======");
-		console.log(steps);
 		drawSteps(steps);
 	}, [steps]);
 
@@ -148,6 +146,8 @@ export default function useDraw() {
 
 			let origin = origin_data?.split("~")[0] || "";
 			let origin_specific = origin_data?.split("~")[1] || "";
+
+
 
 			switch (prefix) {
 				case "wdl": //=================WIDTH DEFINED LINE ================//
@@ -717,6 +717,8 @@ export default function useDraw() {
 			}
 
 			prevQuery = query;
+
+
 		});
 		// console.log("--POINTS--");
 		// console.log(globalThis.POINTS);
@@ -725,7 +727,7 @@ export default function useDraw() {
 	function drawSteps(steps) {
 		// console.log("===Drawing Calls==== ");
 
-		steps.map((step) => {
+		steps.map((step, i) => {
 			if (isArc(step)) {
 				let [cx, cy] = getPoint(step.cname, step.referedAs);
 				drawArc({
@@ -749,6 +751,7 @@ export default function useDraw() {
 					ey,
 					sIsMark,
 					eIsMark,
+					animate: i == steps.length - 1
 				});
 			}
 		});

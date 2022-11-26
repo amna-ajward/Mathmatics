@@ -30,7 +30,7 @@ export default function Canvas({ width, height }: CanvasProps) {
 		// "c-C-AC",
 		// "px-AB~C",
 	]);
-	const [currentStep, setCurrentStep] = useState(queries.length);
+	const [currentStep, setCurrentStep] = useState(1);
 
 	useEffect(() => {
 		if (canvasRef.current) {

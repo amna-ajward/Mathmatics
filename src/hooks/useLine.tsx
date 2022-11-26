@@ -9,6 +9,7 @@ type drawLineProps = {
 	ex: number;
 	ey: number;
 	eIsMark: boolean;
+	animate: boolean;
 };
 
 export default function useLine() {
@@ -23,28 +24,38 @@ export default function useLine() {
 		ey,
 		sIsMark,
 		eIsMark,
+		animate ,
 	}: drawLineProps) {
 		let c = globalThis.ctx;
+		console.log('animate',animate);
 		
 		c!.beginPath();
 		c!.font = "30px Arial";
 		c!.textAlign = "center";
 		c!.textBaseline = "middle";
 		c.lineWidth = 0.5;
-		const maxI =20;
-		let i =0;
+		const maxI = 20;
+		let i = 0;
 		let amount = 0;
+		if (!animate) {
+			c!.moveTo(sx, sy);
+			c!.lineTo(ex, ey);
+			c!.stroke();
+		} else {
+			const myInterval = setInterval(function () {
+				if (i >= maxI) clearInterval(myInterval);
+				amount += 0.05;
+				c.moveTo(sx, sy);
+				c.lineTo(sx + (ex - sx) * amount, sy + (ey - sy) * amount);
+				c.stroke();
+				i += 1;
 
-		const myInterval = setInterval(function () {
-			if(i>=maxI) clearInterval(myInterval);
-			amount += 0.05;
-			c.moveTo(sx, sy);
-			c.lineTo( sx + (ex - sx) * amount, sy + (ey - sy) * amount);
-			c.stroke();
-			i+=1;
+			}, 30);
+		}
 
-		}, 30);
-		
+
+
+
 		if (sIsMark) c!.fillText(sname, sx, sy);
 		if (eIsMark) c!.fillText(ename, ex, ey);
 	}
