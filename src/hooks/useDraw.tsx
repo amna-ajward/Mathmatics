@@ -725,34 +725,43 @@ export default function useDraw() {
 	}
 
 	function drawSteps(steps) {
-		// console.log("===Drawing Calls==== ");
+		 console.log("===Drawing Calls==== ",steps);
 
 		steps.map((step, i) => {
 			if (isArc(step)) {
+				const currentArcs =steps.filter(x=>isArc(x)).slice(-2);
+				const isAnimate =currentArcs.includes(step);
 				let [cx, cy] = getPoint(step.cname, step.referedAs);
-				drawArc({
-					center_name: step.cname,
-					radius: step.radius,
-					start_angle: step.sa,
-					end_angle: step.ea,
-					centerX: cx,
-					centerY: cy,
-				});
+				setTimeout(() => {
+					
+					drawArc({
+						center_name: step.cname,
+						radius: step.radius,
+						start_angle: step.sa,
+						end_angle: step.ea,
+						centerX: cx,
+						centerY: cy,
+						animate:isAnimate
+					});
+				}, isAnimate? currentArcs.findIndex(x=>x ==step) * 1000:0);
 			} else {
 				let [sx, sy, sIsMark] = getPoint(step.sname, step.referedAs);
 				let [ex, ey, eIsMark] = getPoint(step.ename, step.referedAs);
-
-				drawLine({
-					sname: step.sname,
-					ename: step.ename,
-					sx,
-					sy,
-					ex,
-					ey,
-					sIsMark,
-					eIsMark,
-					animate: i == steps.length - 1
-				});
+				const isAnimate = i ==steps.length-1;
+				setTimeout(() => {
+					
+					drawLine({
+						sname: step.sname,
+						ename: step.ename,
+						sx,
+						sy,
+						ex,
+						ey,
+						sIsMark,
+						eIsMark,
+						animate:isAnimate
+					});
+				}, isAnimate ?2000:0);
 			}
 		});
 	}
