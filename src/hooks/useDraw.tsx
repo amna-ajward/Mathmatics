@@ -761,7 +761,7 @@ export default function useDraw() {
 						eIsMark,
 						animate:isAnimate
 					});
-				}, isAnimate ?2000:0);
+				}, isAnimate && i != 0 ?2000:0);
 			}
 		});
 	}
