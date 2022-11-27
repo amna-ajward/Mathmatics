@@ -38,10 +38,12 @@ export default function useLine() {
 		let i = 0;
 		let amount = 0;
 		if (!animate) {
+			c.lineWidth =2;
 			c!.moveTo(sx, sy);
 			c!.lineTo(ex, ey);
 			c!.stroke();
 		} else {
+			c.lineWidth=1;
 			const myInterval = setInterval(function () {
 				if (i >= maxI) clearInterval(myInterval);
 				amount += 0.05;

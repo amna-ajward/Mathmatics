@@ -57,6 +57,7 @@ export default function useArc() {
 
 		if (animate) {
 			let currentAngel = current ? current : start_angle;
+			c.lineWidth =1;
 			c!.beginPath();
 			c!.arc(centerX, centerY, radius, start_angle, currentAngel);
 			c!.stroke();
