@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { POINT } from "../types/types";
 type pointProps = {
 	name: string;
 	x: number | -1;

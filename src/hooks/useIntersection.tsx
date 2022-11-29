@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useUpdateLogger from "./useUpdateLogger";
+import { CORDINATES } from "../types/types";
 
 type intersectionProps = {
 	line_tilt?: number;
@@ -30,7 +30,7 @@ export default function useIntersection({
 	line_tilt,
 	shape0,
 	shape1,
-}: intersectionProps): globalThis.CORDINATES[] {
+}: intersectionProps): CORDINATES[] {
 	function isArc(obj: lineCordinates | arcCordinates): obj is arcCordinates {
 		return (obj as arcCordinates).radius !== undefined;
 	}
@@ -40,13 +40,13 @@ export default function useIntersection({
 	if ((!isArc(shape0) && isArc(shape1)) || (!isArc(shape1) && isArc(shape0)))
 		return findIntersectionLA();
 
-	function findIntersectionLL(): globalThis.CORDINATES[] {
+	function findIntersectionLL(): CORDINATES[] {
 		let { sx: sx0, sy: sy0, ex: ex0, ey: ey0 } = shape0 as lineCordinates;
 		let { sx: sx1, sy: sy1, ex: ex1, ey: ey1 } = shape1 as lineCordinates;
 		return [{ x: -1, y: 1 }];
 	}
 
-	function findIntersectionLA(): globalThis.CORDINATES[] {
+	function findIntersectionLA(): CORDINATES[] {
 		let sp0: lineCordinates = !isArc(shape0)
 			? (shape0 as lineCordinates)
 			: (shape1 as lineCordinates);
@@ -72,7 +72,7 @@ export default function useIntersection({
 		];
 	}
 
-	function findIntersectionAA(): globalThis.CORDINATES[] {
+	function findIntersectionAA(): CORDINATES[] {
 		let { cx: cx0, cy: cy0, radius: r0 } = shape0 as arcCordinates;
 		let { cx: cx1, cy: cy1, radius: r1 } = shape1 as arcCordinates;
 

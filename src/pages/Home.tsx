@@ -5,7 +5,7 @@ import Solution from "../components/Solution";
 export default function Home() {
 	return (
 		<>
-			{/* <Question /> */}
+			<Question />
 			<Solution />
 		</>
 	);
