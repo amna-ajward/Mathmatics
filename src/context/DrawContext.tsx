@@ -1,78 +1,81 @@
-import React, {
-	createContext,
-	ReactNode,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
-import useDraw from "../hooks/useDraw";
-import { CanvasProps, POINT } from "../types/types";
+// import React, {
+// 	createContext,
+// 	ReactNode,
+// 	useContext,
+// 	useEffect,
+// 	useRef,
+// 	useState,
+// } from "react";
+// import useDraw from "../hooks/useDraw";
+// import { CanvasProps, POINT } from "../types/types";
 
-type drawProviderProps = {
-	children: ReactNode;
-};
+// type drawProviderProps = {
+// 	children: ReactNode;
+// };
 
-type drawProps = {
-	queries: string[];
-	currentStep: number;
-	setCurrentStep: Function;
-	onDraw: () => void;
-};
+// type DrawProps = {
+// 	queries: string[];
+// 	currentStep: number;
+// 	setCurrentStep: Function;
+// 	onDraw: () => void;
+// };
 
-const drawContext = createContext({} as drawProps);
+// export const DrawContext = createContext<DrawProps>({
 
-export function useDrawContext() {
-	return useContext(drawContext);
-}
+// } as DrawProps);
 
-export function DrawProvider({ children }: drawProviderProps) {
-	const width = document.querySelector(".canvas")?.clientWidth as number;
-	const height = document.querySelector(".canvas")?.clientHeight as number;
-	const { draw } = useDraw();
-	const [queries, setQueries] = useState<string[]>([
-		"wdl-AB-3",
-		"pb-AB",
-		"sa-AB~A-C-4",
-		"ab-^CAB",
+// export function useDrawContext() {
+// 	const context = useContext(DrawContext);
+// 	return { ...context };
+// }
 
-		// //triangle 3 length given
-		//  "wdl-AB-4", //Must to bring the drawing to center of the canvas
-		//  "trw-ABC-AC-5-BC-4",
+// export function DrawProvider({ children }: drawProviderProps) {
+// 	const width = document.querySelector(".canvas")?.clientWidth as number;
+// 	const height = document.querySelector(".canvas")?.clientHeight as number;
+// 	const { draw } = useDraw();
+// 	const [queries, setQueries] = useState<string[]>([
+// 		"wdl-AB-3",
+// 		"pb-AB",
+// 		"sa-AB~A-C-4",
+// 		"ab-^CAB",
 
-		// //triangle 1 angle & 1 length given
-		//  "tra-ABC-^ABC-90-AC-6",
+// 		// //triangle 3 length given
+// 		//  "wdl-AB-4", //Must to bring the drawing to center of the canvas
+// 		//  "trw-ABC-AC-5-BC-4",
 
-		// "c-C-AC",
-		// "px-AB~C",
-	]);
-	const [currentStep, setCurrentStep] = useState(1);
+// 		// //triangle 1 angle & 1 length given
+// 		//  "tra-ABC-^ABC-90-AC-6",
 
-	useEffect(() => {
-		draw({
-			queries: queries.slice(0, currentStep),
-			canvasDimension: canvasDimension,
-		});
-	}, [currentStep]);
+// 		// "c-C-AC",
+// 		// "px-AB~C",
+// 	]);
+// 	const [currentStep, setCurrentStep] = useState(1);
 
-	const canvasDimension = { w: width, h: height };
+// 	useEffect(() => {
+// 		draw({
+// 			queries: queries.slice(0, currentStep),
+// 			canvasDimension: canvasDimension,
+// 		});
+// 	}, [currentStep]);
 
-	const onDraw = () =>
-		draw({
-			queries: queries,
-			canvasDimension: canvasDimension,
-		});
+// 	const canvasDimension = { w: width, h: height };
 
-	return (
-		<drawContext.Provider
-			value={{
-				queries: queries,
-				currentStep: currentStep,
-				setCurrentStep: setCurrentStep,
-				onDraw: onDraw,
-			}}
-		>
-			{children}
-		</drawContext.Provider>
-	);
-}
+// 	const onDraw = () =>
+// 		draw({
+// 			queries: queries,
+// 			canvasDimension: canvasDimension,
+// 		});
+
+// 	return (
+// 		<DrawContext.Provider
+// 			value={{
+// 				queries: queries,
+// 				currentStep: currentStep,
+// 				setCurrentStep: setCurrentStep,
+// 				onDraw: onDraw,
+// 			}}
+// 		>
+// 			{children}
+// 		</DrawContext.Provider>
+// 	);
+// }
