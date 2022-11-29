@@ -63,6 +63,12 @@ export function DrawProvider({ children }: drawProviderProps) {
 			canvasDimension: canvasDimension,
 		});
 
+	// useEffect(() => {
+	// 	if (canvasRef.current) {
+	// 		globalThis.ctx = canvasRef.current.getContext("2d");
+	// 	}
+	// }, []);
+
 	return (
 		<drawContext.Provider
 			value={{

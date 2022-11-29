@@ -10,6 +10,40 @@ export default function Canvas({ width, height }: CanvasProps) {
 	const { onDraw, queries, currentStep, setCurrentStep } = useDrawContext();
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
+	// const { draw } = useDraw();
+	// const [queries, setQueries] = useState<string[]>([
+	// 	"wdl-AB-3",
+	// 	"pb-AB",
+	// 	"sa-AB~A-C-4",
+	// 	"ab-^CAB",
+
+	// 	// //triangle 3 length given
+	// 	//  "wdl-AB-4", //Must to bring the drawing to center of the canvas
+	// 	//  "trw-ABC-AC-5-BC-4",
+
+	// 	// //triangle 1 angle & 1 length given
+	// 	//  "tra-ABC-^ABC-90-AC-6",
+
+	// 	// "c-C-AC",
+	// 	// "px-AB~C",
+	// ]);
+	// const [currentStep, setCurrentStep] = useState(1);
+
+	// useEffect(() => {
+	// 	draw({
+	// 		queries: queries.slice(0, currentStep),
+	// 		canvasDimension: canvasDimension,
+	// 	});
+	// }, [currentStep]);
+
+	// const canvasDimension = { w: width, h: height };
+
+	// const onDraw = () =>
+	// 	draw({
+	// 		queries: queries,
+	// 		canvasDimension: canvasDimension,
+	// 	});
+
 	useEffect(() => {
 		if (canvasRef.current) {
 			globalThis.ctx = canvasRef.current.getContext("2d");
