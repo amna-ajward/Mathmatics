@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { convert, cmToPx, pxToCm } from "../utilities/convertUnit";
 import usePoint from "./usePoint";
 import useIntersection from "./useIntersection";
-import { useDrawContext } from "../context/DrawContext";
 import {
 	DrawLineProps,
 	DrawArcProps,
