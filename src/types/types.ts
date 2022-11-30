@@ -65,3 +65,16 @@ export type CanvasProps = {
 	width: number;
 	height: number;
 };
+
+export type Sentence = {
+	sentenceID: number;
+	absCommand: string[];
+	absQuery: string;
+	charConverterDefinition: { X: string; Y: string; Z: string };
+};
+
+export type CharConverter = {
+	X: string;
+	Y: string;
+	Z: string;
+};

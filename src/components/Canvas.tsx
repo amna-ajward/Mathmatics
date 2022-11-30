@@ -8,7 +8,7 @@ import { DrawContext, useDrawContext } from "../context/DrawContextProvider";
 
 export default function Canvas({ width, height }: CanvasProps) {
 	const { onDraw, queries, currentStep, setCurrentStep } = useDrawContext();
-	
+
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	// const { draw } = useDraw();
@@ -51,7 +51,7 @@ export default function Canvas({ width, height }: CanvasProps) {
 		}
 	}, []);
 
-	console.log("queries", queries, currentStep, canvasRef);
+	// console.log("queries", queries, currentStep, canvasRef);
 
 	return (
 		<div>
@@ -73,7 +73,9 @@ export default function Canvas({ width, height }: CanvasProps) {
 				</div>
 			</div>
 			<div style={{ display: "flex", justifyContent: "space-evenly" }}>
-				<Button onClick={onDraw}>Canvas Run</Button>
+				<Button onClick={() => onDraw(["test", "run", "solution"])}>
+					Canvas Run
+				</Button>
 				<Button
 					disabled={currentStep == 1}
 					onClick={() => setCurrentStep(currentStep - 1)}
