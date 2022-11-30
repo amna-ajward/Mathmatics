@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { convert, cmToPx, pxToCm } from "../utilities/convertUnit";
-import usePoint from "./usePoint";
 import useIntersection from "./useIntersection";
 import {
 	DrawLineProps,
@@ -12,6 +11,7 @@ import {
 	POINT,
 	CORDINATES,
 } from "../types/types";
+import { useDrawContext } from "../context/DrawContextProvider";
 
 const ANGLE_OFFSETS = {
 	c: [
@@ -118,17 +118,42 @@ const ANGLE_OFFSETS = {
 	],
 };
 
-export default function useDraw() {
+type UseDrawProps = {
+	setPoint: (value: POINT) => void;
+	getPoint: (name: string, referedAs?: string) => [number, number, boolean];
+	getPointDistance: (string0: string, string1: string) => number;
+	canvasRef: React.RefObject<HTMLCanvasElement>;
+};
+
+export default function useDraw({
+	setPoint,
+	getPoint,
+	getPointDistance,
+	canvasRef,
+}: UseDrawProps) {
 	const [steps, setSteps] = useState<(LINE | ARC)[]>([]);
-	const { setPoint, getPoint, getPointDistance } = usePoint();
-	let c = globalThis.ctx as CanvasRenderingContext2D;
+	// const { setPoint, getPoint, getPointDistance } = useDrawContext();
+
+	let c = canvasRef.current?.getContext("2d");
+	console.log("Cc", c);
+
+	// useEffect(() => {
+	// 	if (canvasRef.current) {
+	// 		globalThis.ctx = canvasRef.current.getContext("2d");
+	// 		console.log("canvasRef canvas", canvasRef);
+	// 	}
+	// }, []);
+
+	// console.log("globalThis.ctx", globalThis.ctx);
+	// console.log("canvasRef", canvasRef);
 
 	useEffect(() => {
 		drawSteps(steps);
 	}, [steps]);
 
 	function draw({ queries, canvasDimension }: DrawProps) {
-		c.clearRect(0, 0, canvasDimension.w, canvasDimension.h);
+		// const c = document.querySelector("canvas")?.getContext("2d");
+		c?.clearRect(0, 0, canvasDimension.w, canvasDimension.h);
 		setSteps([]);
 
 		queries.map((query) => {
@@ -141,6 +166,7 @@ export default function useDraw() {
 				case "wdl": //=================WIDTH DEFINED LINE ================//
 					{
 						if (!origin) return;
+						console.log("canvasDimension", canvasDimension);
 
 						let line_width_px: number = convert(cmToPx, parseInt(width)) || 0;
 						let sx: number = canvasDimension.w / 2 - line_width_px;
@@ -150,7 +176,7 @@ export default function useDraw() {
 
 						// (sx = 500), (ex = 300), (sy = 200), (ey = 200);
 						// (sx = 300), (sy = 300), (ex = 100), (ey = 350);
-						(sx = 100), (sy = 300), (ex = 300), (ey = 300); //strainght
+						// (sx = 100), (sy = 300), (ex = 300), (ey = 300); //strainght
 						let point0: POINT = {
 							name: origin[0],
 							x: sx,
@@ -705,7 +731,7 @@ export default function useDraw() {
 			}
 		});
 		// console.log("--POINTS--");
-		// console.log(globalThis.POINTS);
+		// console.log(POINTS);
 	}
 
 	function drawSteps(steps: (LINE | ARC)[]) {
@@ -831,34 +857,35 @@ export default function useDraw() {
 		animate,
 	}: DrawLineProps) {
 		console.log("animate", animate);
+		// const c = document.querySelector("canvas")?.getContext("2d");
 
-		c!.beginPath();
+		c?.beginPath();
 		c!.font = "30px Arial";
 		c!.textAlign = "center";
-		c!.textBaseline = "middle";
 		c!.lineWidth = 0.5;
+		c!.textBaseline = "middle";
 		const maxI = 20;
 		let i = 0;
 		let amount = 0;
 		if (!animate) {
 			c!.lineWidth = 2;
-			c!.moveTo(sx, sy);
-			c!.lineTo(ex, ey);
-			c!.stroke();
+			c?.moveTo(sx, sy);
+			c?.lineTo(ex, ey);
+			c?.stroke();
 		} else {
 			c!.lineWidth = 1;
 			const myInterval = setInterval(function () {
 				if (i >= maxI) clearInterval(myInterval);
 				amount += 0.05;
-				c!.moveTo(sx, sy);
-				c!.lineTo(sx + (ex - sx) * amount, sy + (ey - sy) * amount);
-				c!.stroke();
+				c?.moveTo(sx, sy);
+				c?.lineTo(sx + (ex - sx) * amount, sy + (ey - sy) * amount);
+				c?.stroke();
 				i += 1;
 			}, 30);
 		}
 
-		if (sIsMark) c!.fillText(sname, sx, sy);
-		if (eIsMark) c!.fillText(ename, ex, ey);
+		if (sIsMark) c?.fillText(sname, sx, sy);
+		if (eIsMark) c?.fillText(ename, ex, ey);
 	}
 
 	function drawArc({
@@ -870,12 +897,14 @@ export default function useDraw() {
 		current,
 		animate,
 	}: DrawArcProps) {
+		// const c = document.querySelector("canvas")?.getContext("2d");
+
 		if (animate) {
 			let currentAngel = current ? current : start_angle;
 			c!.lineWidth = 1;
-			c!.beginPath();
-			c!.arc(centerX, centerY, radius, start_angle, currentAngel);
-			c!.stroke();
+			c?.beginPath();
+			c?.arc(centerX, centerY, radius, start_angle, currentAngel);
+			c?.stroke();
 			currentAngel += 0.03;
 			if (currentAngel < end_angle) {
 				window.requestAnimationFrame(() =>
@@ -891,9 +920,9 @@ export default function useDraw() {
 				);
 			}
 		} else {
-			c!.beginPath();
-			c!.arc(centerX, centerY, radius, start_angle, end_angle);
-			c!.stroke();
+			c?.beginPath();
+			c?.arc(centerX, centerY, radius, start_angle, end_angle);
+			c?.stroke();
 		}
 	}
 

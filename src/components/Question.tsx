@@ -8,10 +8,11 @@ export default function Question() {
 	const [question, setQuestion] = useState("");
 
 	const tempQ =
-		"Construct a straight-line segment BA of length 5cm. assad sdgdg ggg. Construct the triangle ABC such that AB = 6 cm, ^ ABC=60 deg and BC = 6 cm"; //Construct a semicircle with diameter AB and label its center as C";
+		"Construct the triangle ABC such that AB = 6 cm, ^ ABC=60 deg and BC = 6 cm"; //Construct a semicircle with diameter AB and label its center as C";
 
 	const queryCommands: string[] = useQuery(tempQ);
 	// const queryCommands: string[] = useQuery(question);
+	console.log("queryCommands", queryCommands);
 
 	return (
 		<>
@@ -25,7 +26,7 @@ export default function Question() {
 				value={question}
 				onChange={(e) => setQuestion(e.target.value)}
 			/>
-			<Button onClick={() => onDraw(queryCommands)}>Solve</Button>
+			<Button onClick={() => onDraw(["wdl-AB-3", "pb-AB"])}>Solve</Button>
 		</>
 	);
 }
