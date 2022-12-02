@@ -15,8 +15,8 @@ export function useQuery(userQuestion: string): {
 	const { abstractedUserQuestions, charConverterDefinition } =
 		getAbstractUserQuestion(restructureduserQuestion);
 
-	console.log("restructureduserQuestion", restructureduserQuestion);
-	console.log("charConverterDefinition", charConverterDefinition);
+	// console.log("restructureduserQuestion", restructureduserQuestion);
+	// console.log("charConverterDefinition", charConverterDefinition);
 
 	let bestMatches: Sentence[] = getBestMatches(
 		abstractedUserQuestions,
@@ -77,6 +77,7 @@ function getAbstractUserQuestion(query: string[]): {
 			X: sortedChars[0],
 			Y: sortedChars[1],
 			Z: sortedChars[2],
+			R: sortedChars[3],
 		};
 		let capitalWordsXYZ = capitalWords.map((cw) => {
 			return cw
@@ -85,9 +86,9 @@ function getAbstractUserQuestion(query: string[]): {
 				.join("");
 		});
 		let sortedWordsRef: any = {};
-		capitalWords.forEach((sc, index) => {
-			sortedWordsRef[capitalWordsXYZ[index]] = sc;
-		});
+		capitalWords.forEach(
+			(sc, index) => (sortedWordsRef[capitalWordsXYZ[index]] = sc)
+		);
 
 		let reCreatedQuestion = reCreateQuestion(q, sortedWordsRef);
 		charConverterDefinition.push(sortedCharsRef);
