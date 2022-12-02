@@ -7,46 +7,21 @@ import { CanvasProps } from "../types/types";
 import { DrawContext, useDrawContext } from "../context/DrawContextProvider";
 
 export default function Canvas() {
-	const { onDraw, queries, currentStep, setCurrentStep, canvasRef } =
+	const { onDraw, queries, currentStep, setCurrentStep, canvasRef, stepDesc } =
 		useDrawContext();
-
-	// useEffect(() => {
-	// 	if (canvasRef.current) {
-	// 		// globalThis.ctx = canvasRef.current.getContext("2d");
-	// 		console.log("canvasRef canvas", canvasRef);
-	// 	}
-	// }, []);
-
-	// console.log("globalThis.ctx", globalThis.ctx);
-	console.log("canvasRef abc", canvasRef.current);
-	console.log("canvasRef bbc", canvasRef.current?.getContext("2d"));
-
-	// console.log("queries", queries, currentStep, canvasRef);
 
 	return (
 		<div>
 			<div style={{ display: "flex" }}>
 				<div style={{ flex: "1" }}>
 					<StepsList
-						steps={queries}
+						steps={stepDesc}
 						currentStep={currentStep}
 						onStepClick={(step) => setCurrentStep(step)}
 					/>
 				</div>
 				<div style={{ flex: "1" }}>
-					<canvas
-						ref={canvasRef}
-						width={840}
-						height={540}
-						id="canvas"
-						onClick={() => {
-							console.log("canvasRef abc inside", canvasRef.current);
-							console.log(
-								"canvasRef bbc inside",
-								canvasRef.current?.getContext("2d")
-							);
-						}}
-					></canvas>
+					<canvas ref={canvasRef} width={840} height={540} id="canvas"></canvas>
 				</div>
 			</div>
 			<div style={{ display: "flex", justifyContent: "space-evenly" }}>

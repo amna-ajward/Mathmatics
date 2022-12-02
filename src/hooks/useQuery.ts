@@ -3,8 +3,12 @@ import questionData from "../data/constructionQuestion.json";
 import { stringSimilarity } from "string-similarity-js";
 import { Sentence, CharConverter } from "../types/types";
 
-export function useQuery(userQuestion: string): string[] {
+export function useQuery(userQuestion: string): {
+	commands: string[];
+	steps: string[];
+} {
 	let commands: string[] = [];
+	let steps: string[] = [];
 
 	const restructureduserQuestion: string[] =
 		getRestructedUserQuestion(userQuestion);
@@ -17,13 +21,35 @@ export function useQuery(userQuestion: string): string[] {
 	);
 
 	bestMatches.map((bestMatch) => {
-		if (bestMatch.sentenceID > 0)
+		if (bestMatch.sentenceID > 0) {
 			commands.push(getUserCommands(bestMatch).join(","));
+
+			let step = bestMatch.query_steps.map((qs) => {
+				return destructureQuestion(qs, bestMatch.charConverterDefinition);
+			});
+
+			steps.push(...step);
+		}
 	});
 
 	commands = commands.join(",").split(",");
 
-	return commands;
+	return { commands, steps };
+}
+
+function getUserCommands(sentences: Sentence): string[] {
+	let valueUnit: string[] = sentences.absQuery.match(/\d+\.*\d*cm\b/g) || [];
+	let values = valueUnit.join(",").replaceAll("cm", "").split(",");
+
+	const userCommands: string[] = sentences.absCommand.map((com) => {
+		return destructureQuestion(com, sentences.charConverterDefinition);
+	});
+
+	values.forEach((val, index) => {
+		userCommands[index] = userCommands[index] + "-" + val;
+	});
+
+	return userCommands;
 }
 
 function getRestructedUserQuestion(query: string): string[] {
@@ -62,13 +88,6 @@ function getAbstractUserQuestion(query: string[]): {
 
 		let reCreatedQuestion = reCreateQuestion(q, sortedWordsRef);
 		charConverterDefinition.push(sortedCharsRef);
-		// console.log("cleanedQuestion", cleanedQuestion);
-		// console.log("capitalWords", capitalWords);
-		// console.log("sortedChars", sortedChars);
-		// console.log("sortedCharsRef", sortedCharsRef);
-		// console.log("capitalWordsXYZ", capitalWordsXYZ);
-		// console.log("sortedWordsRef", sortedWordsRef);
-		// console.log("reCreatedQuestion", reCreatedQuestion);
 
 		return reCreatedQuestion;
 	});
@@ -76,12 +95,11 @@ function getAbstractUserQuestion(query: string[]): {
 	return { abstractedUserQuestions, charConverterDefinition };
 }
 
-function getUserCommands(sentences: Sentence): string[] {
-	const userCommands: string[] = sentences.absCommand.map((com) => {
-		return destructureQuestion(com, sentences.charConverterDefinition);
-	});
-
-	return userCommands;
+function destructureQuestion(question: string, recreateRefObj: Object) {
+	for (const [k, v] of Object.entries(recreateRefObj)) {
+		question = question.replaceAll(k, v);
+	}
+	return question;
 }
 
 function removeUnwantedSpace(value: string) {
@@ -113,13 +131,6 @@ function reCreateQuestion(question: string, recreateRefObj: Object) {
 	return question;
 }
 
-function destructureQuestion(question: string, recreateRefObj: Object) {
-	for (const [k, v] of Object.entries(recreateRefObj)) {
-		question = question.replaceAll(k, v);
-	}
-	return question;
-}
-
 function getBestMatches(
 	abstractedUserQuestions: string[],
 	charConverterDefinition: CharConverter[]
@@ -132,6 +143,7 @@ function getBestMatches(
 			absCommand: [],
 			absQuery: "",
 			charConverterDefinition: { X: "", Y: "", Z: "" },
+			query_steps: [],
 		};
 		questionData.map((questionItem) => {
 			questionItem.question.find((ques) => {
@@ -143,6 +155,7 @@ function getBestMatches(
 						absCommand: questionItem.command,
 						absQuery: query,
 						charConverterDefinition: charConverterDefinition[index],
+						query_steps: questionItem.question_step || [],
 					};
 				}
 			});
@@ -176,7 +189,7 @@ create object sortedWordsRef = {capitalWordsXYZ[0]:capitalWords[0],capitalWordsX
 
 4. Create query:string[] = for each command coming from APISent. Replace X=sortedChars[0],Y=sortedChars[1],Z=sortedChars[2].
 5. Get values from MySent = get character combinations of number/. proceeding 'cm' without whitespace.
-6. Update query by, for each query combine the values with a -
+6. Update query by, for each query combine the values with with its corresponding command
 
 
 3. from MySent - extract the capitalized 1/2/3 letter words with whitespaces in either sides or proceeding ^(checking for angle), sort each value in the acscending order, if proceeded with ^ then sort only the first(i.e.2nd chatacter) & last letter

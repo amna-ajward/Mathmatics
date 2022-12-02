@@ -71,6 +71,7 @@ export type Sentence = {
 	absCommand: string[];
 	absQuery: string;
 	charConverterDefinition: { X: string; Y: string; Z: string };
+	query_steps: string[];
 };
 
 export type CharConverter = {
