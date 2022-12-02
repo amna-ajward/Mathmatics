@@ -135,17 +135,6 @@ export default function useDraw({
 	// const { setPoint, getPoint, getPointDistance } = useDrawContext();
 
 	let c = canvasRef.current?.getContext("2d");
-	console.log("Cc", c);
-
-	// useEffect(() => {
-	// 	if (canvasRef.current) {
-	// 		globalThis.ctx = canvasRef.current.getContext("2d");
-	// 		console.log("canvasRef canvas", canvasRef);
-	// 	}
-	// }, []);
-
-	// console.log("globalThis.ctx", globalThis.ctx);
-	// console.log("canvasRef", canvasRef);
 
 	useEffect(() => {
 		drawSteps(steps);
@@ -166,7 +155,6 @@ export default function useDraw({
 				case "wdl": //=================WIDTH DEFINED LINE ================//
 					{
 						if (!origin) return;
-						console.log("canvasDimension", canvasDimension);
 
 						let line_width_px: number = convert(cmToPx, parseInt(width)) || 0;
 						let sx: number = canvasDimension.w / 2 - line_width_px;
@@ -202,6 +190,17 @@ export default function useDraw({
 						setSteps((steps) => [...steps, line]);
 					}
 					break;
+				case "pdl": {
+					if (!origin) return;
+
+					let line: LINE = {
+						sname: origin[0],
+						ename: origin[1],
+						referedAs: query,
+					};
+
+					setSteps((steps) => [...steps, line]);
+				}
 				case "pb": //================= PERPENDICULAR BISECTOR ================//
 					{
 						if (!origin) return;
@@ -232,9 +231,6 @@ export default function useDraw({
 						const OFFSET_X = 40 * -Math.sign(dx);
 						const OFFSET_Y =
 							40 * (dx === 0 ? 0 : Math.abs(dy / dx)) * -Math.sign(dy);
-
-						// console.log("dx: " + dx + ", dy: " + dy);
-						// console.log("offset-x:", OFFSET_X, " offset-y:", OFFSET_Y);
 
 						let lineOrigin_midpoint: POINT = {
 							name: `${origin}m`,
@@ -420,7 +416,6 @@ export default function useDraw({
 							prefix,
 							1,
 						]);
-						console.log(defned_line);
 
 						const intersection = useIntersection({
 							shape0: { cx: pnt0_x, cy: pnt0_y, radius: arc0_radius },
@@ -730,14 +725,12 @@ export default function useDraw({
 					break;
 			}
 		});
-		// console.log("--POINTS--");
-		// console.log(POINTS);
 	}
 
 	function drawSteps(steps: (LINE | ARC)[]) {
 		console.log("===Drawing Calls==== ", steps);
 
-		steps.map((step, i: number) => {
+		steps.map((step, index: number) => {
 			if (isArc(step)) {
 				const currentArcs = steps.filter((x) => isArc(x)).slice(-2);
 				const isAnimate = currentArcs.includes(step);
@@ -759,7 +752,7 @@ export default function useDraw({
 			} else {
 				let [sx, sy, sIsMark] = getPoint(step.sname, step.referedAs);
 				let [ex, ey, eIsMark] = getPoint(step.ename, step.referedAs);
-				const isAnimate = i == steps.length - 1;
+				const isAnimate = index == steps.length - 1;
 				setTimeout(
 					() => {
 						drawLine({
@@ -774,7 +767,7 @@ export default function useDraw({
 							animate: isAnimate,
 						});
 					},
-					isAnimate && i != 0 ? 2000 : 0
+					isAnimate && index != 0 ? 2000 : 0
 				);
 			}
 		});
@@ -856,9 +849,6 @@ export default function useDraw({
 		eIsMark,
 		animate,
 	}: DrawLineProps) {
-		console.log("animate", animate);
-		// const c = document.querySelector("canvas")?.getContext("2d");
-
 		c?.beginPath();
 		c!.font = "30px Arial";
 		c!.textAlign = "center";
