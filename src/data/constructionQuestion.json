@@ -23,10 +23,14 @@
 	},
 	{
 		"sentence_id": 3,
-		"command": ["wdl-XZ", "pb-XZ"],
+		"command": ["wdl-XY", "pb-XY"],
+		"question_step": [
+			"Construct a line XY=cm",
+			"Construct the perpendicular bisector of XY"
+		],
 		"question": [
-			"Construct a line XZ of length cm and its perpendicular bisector",
-			"Construct a line ZX of length cm and its perpendicular bisector"
+			"Construct a line XY of length cm and its perpendicular bisector",
+			"Construct a line YX of length cm and its perpendicular bisector"
 		]
 	},
 	{
@@ -41,7 +45,10 @@
 	{
 		"sentence_id": 4,
 		"command": ["wdl-XZ", "sa-XZ~X-Y"],
-		"question_step": [],
+		"question_step": [
+			"Construct a line XZ=cm",
+			"Construct the line XY=cm such that ^ZXY is 60 degrees"
+		],
 		"question": [
 			"Construct a line XZ of length 6cm and construct the line XY such that ^YXZ=60deg",
 			"Construct a line ZX of length 6cm and construct the line XY such that ^YXZ=60deg",
@@ -126,6 +133,14 @@
 		"question": [
 			"Construct a semicircle with diameter XY and label its center as Z",
 			"Construct a semicircle with diameter YX and label its center as Z"
+		]
+	},
+	{
+		"sentence_id": 7,
+		"command": ["sc-XY~Z"],
+		"question": [
+			"Construct the bisector of ^XYZ, Name the point at which it meets XZ as R",
+			"Construct the bisector of ^XYZ, Name the point at which it meets ZX as R"
 		]
 	}
 ]

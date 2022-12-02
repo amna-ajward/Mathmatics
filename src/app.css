@@ -12,10 +12,11 @@ body {
   transition: 0.3s;
   margin: 10px;
   padding: 5px;
-  color: #092c7d;
+
   border-radius: 0 !important;
   margin: 0 !important;
-
+  color: #fff;
+  background-color: rgba(9, 53, 125, 0.9) !important;
 }
 
 .card:hover {
@@ -26,11 +27,11 @@ body {
 }
 
 .active {
-  color: #fff;
-  background-color: rgba(9, 53, 125, 0.9) !important;
+  color: #092c7d;
   text-decoration: none;
   transition: background .5s;
   border-color: azure !important;
+  background-color: azure !important;
 }
 
 .container {

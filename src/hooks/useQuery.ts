@@ -15,6 +15,9 @@ export function useQuery(userQuestion: string): {
 	const { abstractedUserQuestions, charConverterDefinition } =
 		getAbstractUserQuestion(restructureduserQuestion);
 
+	console.log("restructureduserQuestion", restructureduserQuestion);
+	console.log("charConverterDefinition", charConverterDefinition);
+
 	let bestMatches: Sentence[] = getBestMatches(
 		abstractedUserQuestions,
 		charConverterDefinition
@@ -41,9 +44,9 @@ function getUserCommands(sentences: Sentence): string[] {
 	let valueUnit: string[] = sentences.absQuery.match(/\d+\.*\d*cm\b/g) || [];
 	let values = valueUnit.join(",").replaceAll("cm", "").split(",");
 
-	const userCommands: string[] = sentences.absCommand.map((com) => {
-		return destructureQuestion(com, sentences.charConverterDefinition);
-	});
+	const userCommands: string[] = sentences.absCommand.map((com) =>
+		destructureQuestion(com, sentences.charConverterDefinition)
+	);
 
 	values.forEach((val, index) => {
 		userCommands[index] = userCommands[index] + "-" + val;

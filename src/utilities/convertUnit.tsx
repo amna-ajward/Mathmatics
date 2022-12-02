@@ -5,9 +5,9 @@ export function convert(callback: (number: number) => number, number: number) {
 }
 
 export function cmToPx(number: number): number {
-	return number * CM_TO_PX_OFFSET;
+	return (number * CM_TO_PX_OFFSET) / 2;
 }
 
 export function pxToCm(number: number): number {
-	return number / CM_TO_PX_OFFSET;
+	return number / CM_TO_PX_OFFSET / 2;
 }

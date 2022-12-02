@@ -137,6 +137,8 @@ export default function useDraw({
 	let c = canvasRef.current?.getContext("2d");
 
 	useEffect(() => {
+		console.log("steps", steps);
+
 		drawSteps(steps);
 	}, [steps]);
 
@@ -734,35 +736,42 @@ export default function useDraw({
 				let [cx, cy] = getPoint(step.cname, step.referedAs);
 				setTimeout(
 					() => {
-						drawArc({
-							center_name: step.cname,
-							radius: step.radius,
-							start_angle: step.sa,
-							end_angle: step.ea,
-							centerX: cx,
-							centerY: cy,
-							animate: isAnimate,
-						});
+						drawArc(
+							{
+								center_name: step.cname,
+								radius: step.radius,
+								start_angle: step.sa,
+								end_angle: step.ea,
+								centerX: cx,
+								centerY: cy,
+								animate: isAnimate,
+							},
+							getRandomColor()
+						);
 					},
 					isAnimate ? currentArcs.findIndex((x) => x == step) * 1000 : 0
 				);
 			} else {
 				let [sx, sy, sIsMark] = getPoint(step.sname, step.referedAs);
 				let [ex, ey, eIsMark] = getPoint(step.ename, step.referedAs);
+				// let color = getRandomColor();
 				const isAnimate = index == steps.length - 1;
 				setTimeout(
 					() => {
-						drawLine({
-							sname: step.sname,
-							ename: step.ename,
-							sx,
-							sy,
-							ex,
-							ey,
-							sIsMark,
-							eIsMark,
-							animate: isAnimate,
-						});
+						drawLine(
+							{
+								sname: step.sname,
+								ename: step.ename,
+								sx,
+								sy,
+								ex,
+								ey,
+								sIsMark,
+								eIsMark,
+								animate: isAnimate,
+							},
+							getRandomColor()
+						);
 					},
 					isAnimate && index != 0 ? 2000 : 0
 				);
@@ -835,22 +844,16 @@ export default function useDraw({
 		return [start_angle, end_angle];
 	}
 
-	function drawLine({
-		sname,
-		ename,
-		sx,
-		sy,
-		ex,
-		ey,
-		sIsMark,
-		eIsMark,
-		animate,
-	}: DrawLineProps) {
+	function drawLine(
+		{ sname, ename, sx, sy, ex, ey, sIsMark, eIsMark, animate }: DrawLineProps,
+		color: string
+	) {
 		c?.beginPath();
 		c!.font = "30px Arial";
 		c!.textAlign = "center";
 		c!.lineWidth = 0.5;
 		c!.textBaseline = "middle";
+		c!.strokeStyle = color;
 		const maxI = 20;
 		let i = 0;
 		let amount = 0;
@@ -871,19 +874,23 @@ export default function useDraw({
 			}, 30);
 		}
 
+		c!.fillStyle = color;
 		if (sIsMark) c?.fillText(sname, sx, sy);
 		if (eIsMark) c?.fillText(ename, ex, ey);
 	}
 
-	function drawArc({
-		centerX,
-		centerY,
-		radius,
-		start_angle,
-		end_angle,
-		current,
-		animate,
-	}: DrawArcProps) {
+	function drawArc(
+		{
+			centerX,
+			centerY,
+			radius,
+			start_angle,
+			end_angle,
+			current,
+			animate,
+		}: DrawArcProps,
+		color: string
+	) {
 		// const c = document.querySelector("canvas")?.getContext("2d");
 
 		if (animate) {
@@ -891,19 +898,23 @@ export default function useDraw({
 			c!.lineWidth = 1;
 			c?.beginPath();
 			c?.arc(centerX, centerY, radius, start_angle, currentAngel);
+			c!.strokeStyle = color;
 			c?.stroke();
 			currentAngel += 0.03;
 			if (currentAngel < end_angle) {
 				window.requestAnimationFrame(() =>
-					drawArc({
-						centerX,
-						centerY,
-						radius,
-						start_angle,
-						end_angle,
-						current: currentAngel,
-						animate: true,
-					})
+					drawArc(
+						{
+							centerX,
+							centerY,
+							radius,
+							start_angle,
+							end_angle,
+							current: currentAngel,
+							animate: true,
+						},
+						color
+					)
 				);
 			}
 		} else {
@@ -911,6 +922,12 @@ export default function useDraw({
 			c?.arc(centerX, centerY, radius, start_angle, end_angle);
 			c?.stroke();
 		}
+	}
+
+	function getRandomColor() {
+		return `rgb(${(Math.random() + 0.5) * 253},${(Math.random() + 0.5) * 254},${
+			(Math.random() + 0.5) * 254
+		})`;
 	}
 
 	return { draw };
