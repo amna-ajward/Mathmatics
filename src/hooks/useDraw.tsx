@@ -910,7 +910,7 @@ export default function useDraw({
       c?.arc(centerX, centerY, radius, start_angle, currentAngel);
       c!.strokeStyle = color;
       c?.stroke();
-      currentAngel += 0.03;
+      currentAngel += 0.07;
       if (currentAngel < end_angle) {
         window.requestAnimationFrame(() =>
           drawArc(
