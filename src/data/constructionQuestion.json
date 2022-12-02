@@ -137,10 +137,14 @@
 	},
 	{
 		"sentence_id": 7,
-		"command": ["sc-XY~Z"],
+		"command": ["ab-^XYZ+XZ~R"],
+		"question_step": [
+			"Construct the angular bisector of ^XYZ",
+			"Find where XZ and the bisector crosses, and name it as R"
+		],
 		"question": [
-			"Construct the bisector of ^XYZ, Name the point at which it meets XZ as R",
-			"Construct the bisector of ^XYZ, Name the point at which it meets ZX as R"
+			"Construct the bisector of ^XYZ, Name the point at which it meets XZ at R",
+			"Construct the bisector of ^XYZ, Name the point at which it meets ZX at R"
 		]
 	}
 ]

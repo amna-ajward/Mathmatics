@@ -151,7 +151,7 @@ export default function useDraw({
       let [prefix, origin_data, width] = query.split("-");
 
       let origin = origin_data?.split("~")[0] || "";
-      let origin_specific = origin_data?.split("~")[1] || "";
+      let origin_specific = origin_data?.split(/[~+]/g)[1] || "";
 
       switch (prefix) {
         case "wdl": //=================WIDTH DEFINED LINE ================//
@@ -461,10 +461,16 @@ export default function useDraw({
           break;
         case "ab": //================= ANGLE BISECTOR ================//
           {
+            //e.g. ab-^XYZ+XZ~R
             if (!origin) return;
 
-            origin = origin.split("^")[1]; //An angle
-            let [first, origin_specific, last] = origin.split("");
+            console.log(query.split(/[-\^+~]/).slice(2, 5));
+
+            const [angle, i_line, i_point_name] = query
+              .split(/[-\^+~]/)
+              .slice(2, 5);
+
+            let [first, origin_specific, last] = angle.split("");
             if (first > last) {
               let temp = first;
               first = last;
@@ -582,6 +588,36 @@ export default function useDraw({
             setPoint(intersection1);
             setPoint(intersection2);
             setSteps((steps) => [...steps, arc0, arc1, arc2, ab_line]);
+
+            if (i_point_name) {
+              console.log("i_point_name", i_point_name);
+
+              let [i_line_sx, i_line_sy] = getPoint(i_line[0]);
+              let [i_line_ex, i_line_ey] = getPoint(i_line[0]);
+              let i_ll = useIntersection({
+                shape0: {
+                  sx: i_line_sx,
+                  sy: i_line_sy,
+                  ex: i_line_ex,
+                  ey: i_line_ey,
+                },
+                shape1: {
+                  sx: o_specificX,
+                  sy: o_specificY,
+                  ex: i_aa.x - OFFSET_X,
+                  ey: i_aa.y - OFFSET_Y,
+                },
+              })[0];
+
+              let intersection3: POINT = {
+                name: i_point_name,
+                x: i_ll.x,
+                y: i_ll.y,
+                isMark: true,
+                referedAs: query,
+              };
+              setPoint(intersection3);
+            }
           }
           break;
         case "c": //================= CIRCLE =================//
