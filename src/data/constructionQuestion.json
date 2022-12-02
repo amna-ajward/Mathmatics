@@ -2,6 +2,7 @@
 	{
 		"sentence_id": 1,
 		"command": ["wdl-XY"],
+		"question_step": ["Construct the line XY=cm"],
 		"question": [
 			"Construct the XY line such that XY=cm",
 			"Construct a line XY of length cm",
@@ -10,8 +11,9 @@
 		]
 	},
 	{
-		"sentence_id": 1,
+		"sentence_id": 2,
 		"command": ["wdl-XZ"],
+		"question_step": ["Construct the line XZ=cm"],
 		"question": [
 			"Construct the XZ line such that XZ=cm",
 			"Construct a line XZ of length cm",
@@ -20,7 +22,7 @@
 		]
 	},
 	{
-		"sentence_id": 2,
+		"sentence_id": 3,
 		"command": ["wdl-XZ", "pb-XZ"],
 		"question": [
 			"Construct a line XZ of length cm and its perpendicular bisector",
@@ -29,7 +31,17 @@
 	},
 	{
 		"sentence_id": 3,
+		"command": ["pb-XY"],
+		"question_step": ["Construct the perpendicular bisector of XY"],
+		"question": [
+			"Construct the perpendicular bisector of XY",
+			"Construct the perpendicular bisector of YX"
+		]
+	},
+	{
+		"sentence_id": 4,
 		"command": ["wdl-XZ", "sa-XZ~X-Y"],
+		"question_step": [],
 		"question": [
 			"Construct a line XZ of length 6cm and construct the line XY such that ^YXZ=60deg",
 			"Construct a line ZX of length 6cm and construct the line XY such that ^YXZ=60deg",
@@ -42,8 +54,13 @@
 		]
 	},
 	{
-		"sentence_id": 4,
-		"command": ["wdl-XY", "sa-^XYZ-Z"],
+		"sentence_id": 5,
+		"command": ["wdl-YX", "sa-YX~Y-Z", "pdl-XZ"],
+		"question_step": [
+			"Construct the line XY=cm",
+			"Construct the line YZ=cm such that ^XYZ is 60 degrees",
+			"Connect X and Z"
+		],
 		"question": [
 			"Construct the triangle XYZ such that XY=cm, ^XYZ=60deg and YZ=cm",
 			"Construct the triangle XYZ such that XY=cm, ^ZYX=60deg and YZ=cm",
@@ -74,7 +91,7 @@
 		]
 	},
 	{
-		"sentence_id": 5,
+		"sentence_id": 6,
 		"command": ["wdl-XY", "pp-XY~Y-Z"],
 		"question": [
 			"Construct the triangle XYZ such that XY=cm, ^XYZ=90deg and YZ=cm",
@@ -104,7 +121,7 @@
 		]
 	},
 	{
-		"sentence_id": 6,
+		"sentence_id": 7,
 		"command": ["sc-XY~Z"],
 		"question": [
 			"Construct a semicircle with diameter XY and label its center as Z",
