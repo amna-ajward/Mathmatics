@@ -162,9 +162,6 @@ export default function useDraw({
 						let ex: number = canvasDimension.w / 2 + line_width_px;
 						let ey: number = canvasDimension.h / 2;
 
-						// (sx = 500), (ex = 300), (sy = 200), (ey = 200);
-						// (sx = 300), (sy = 300), (ex = 100), (ey = 350);
-						// (sx = 100), (sy = 300), (ex = 300), (ey = 300); //strainght
 						let point0: POINT = {
 							name: origin[0],
 							x: sx,

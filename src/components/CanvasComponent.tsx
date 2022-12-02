@@ -14,13 +14,6 @@ export default function Canvas() {
 		<div>
 			<div style={{ display: "flex" }}>
 				<div style={{ flex: "1" }}>
-					<StepsList
-						steps={stepDesc}
-						currentStep={currentStep}
-						onStepClick={(step) => setCurrentStep(step)}
-					/>
-				</div>
-				<div style={{ flex: "1" }}>
 					<canvas ref={canvasRef} width={840} height={540} id="canvas"></canvas>
 				</div>
 			</div>
