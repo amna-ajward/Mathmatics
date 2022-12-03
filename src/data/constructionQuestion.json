@@ -10,17 +10,7 @@
 			"Construct a line YX of length cm"
 		]
 	},
-	{
-		"sentence_id": 2,
-		"command": ["wdl-XZ"],
-		"question_step": ["Construct the line XZ=cm"],
-		"question": [
-			"Construct the XZ line such that XZ=cm",
-			"Construct a line XZ of length cm",
-			"Construct the ZX line such that ZX=cm",
-			"Construct a line ZX of length cm"
-		]
-	},
+
 	{
 		"sentence_id": 3,
 		"command": ["wdl-XY", "pb-XY"],
@@ -62,7 +52,7 @@
 	},
 	{
 		"sentence_id": 5,
-		"command": ["wdl-YX", "sa-YX~Y-Z", "pdl-XZ"],
+		"command": ["wdl-XY", "sa-YX~Y-Z", "pdl-XZ"],
 		"question_step": [
 			"Construct the line XY=cm",
 			"Construct the line YZ=cm such that ^XYZ is 60 degrees",
@@ -129,7 +119,11 @@
 	},
 	{
 		"sentence_id": 7,
-		"command": ["sc-XY~Z"],
+		"command": ["pb-XY", "sc-XY~Z"],
+		"question_step": [
+			"Construct the perpendicular bisector of XY",
+			"Draw a semi-circle taking, the point where XY and the bisector meet(Z) and XZ as radius "
+		],
 		"question": [
 			"Construct a semicircle with diameter XY and label its center as Z",
 			"Construct a semicircle with diameter YX and label its center as Z"
@@ -144,7 +138,37 @@
 		],
 		"question": [
 			"Construct the bisector of ^XYZ, Name the point at which it meets XZ at R",
-			"Construct the bisector of ^XYZ, Name the point at which it meets ZX at R"
+			"Construct the bisector of ^XYZ, Name the point at which it meets ZX at R",
+			"Construct the bisector of ^XYZ, Name the point at which it meets ZX at R",
+			"Construct the bisector of ^XYZ, Name the point at which it meets XZ at R"
+		]
+	},
+	{
+		"sentence_id": 8,
+		"command": ["ab-^YXZ+YZ~R"],
+		"question_step": [
+			"Construct the angular bisector of ^YXZ",
+			"Find where YZ and the bisector crosses, and name it as R"
+		],
+		"question": [
+			"Construct the bisector of ^ZXY, Name the point at which it meets YZ at R",
+			"Construct the bisector of ^YXZ, Name the point at which it meets YZ at R",
+			"Construct the bisector of ^ZXY, Name the point at which it meets ZY at R",
+			"Construct the bisector of ^YXZ, Name the point at which it meets ZY at R"
+		]
+	},
+	{
+		"sentence_id": 9,
+		"command": ["pb-XY", "c-XY~XYm"],
+		"question_step": [
+			"Construct the perpendicular bisector of XY",
+			"Taking the point of intersection of bisector and XY meet, draw a circle taking the point of intersection and Y as radius"
+		],
+		"question": [
+			"Find the center of the circle that has XY as a diameter and construct this circle",
+			"Find the center of the circle that has YX as a diameter and construct this circle",
+			"Find the center of the circle that has XY as a diameter and construct the circle",
+			"Find the center of the circle that has YX as a diameter and construct the circle"
 		]
 	}
 ]

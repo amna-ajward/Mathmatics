@@ -23,6 +23,8 @@ export function useQuery(userQuestion: string): {
 		charConverterDefinition
 	);
 
+	// console.log("bestMatches", bestMatches);
+
 	bestMatches.map((bestMatch) => {
 		if (bestMatch.sentenceID > 0) {
 			commands.push(getUserCommands(bestMatch).join(","));
@@ -49,7 +51,7 @@ function getUserCommands(sentences: Sentence): string[] {
 	);
 
 	values.forEach((val, index) => {
-		userCommands[index] = userCommands[index] + "-" + val;
+		if (val !== "") userCommands[index] = userCommands[index] + "-" + val;
 	});
 
 	return userCommands;
