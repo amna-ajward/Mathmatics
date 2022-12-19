@@ -1,0 +1,174 @@
+[
+	{
+		"sentence_id": 1,
+		"command": ["wdl-XY"],
+		"question_step": ["Construct the line XY=cm"],
+		"question": [
+			"Construct the XY line such that XY=cm",
+			"Construct a line XY of length cm",
+			"Construct the YX line such that YX=cm",
+			"Construct a line YX of length cm"
+		]
+	},
+
+	{
+		"sentence_id": 3,
+		"command": ["wdl-XY", "pb-XY"],
+		"question_step": [
+			"Construct a line XY=cm",
+			"Construct the perpendicular bisector of XY"
+		],
+		"question": [
+			"Construct a line XY of length cm and its perpendicular bisector",
+			"Construct a line YX of length cm and its perpendicular bisector"
+		]
+	},
+	{
+		"sentence_id": 3,
+		"command": ["pb-XY"],
+		"question_step": ["Construct the perpendicular bisector of XY"],
+		"question": [
+			"Construct the perpendicular bisector of XY",
+			"Construct the perpendicular bisector of YX"
+		]
+	},
+	{
+		"sentence_id": 4,
+		"command": ["wdl-XZ", "sa-XZ~X-Y"],
+		"question_step": [
+			"Construct a line XZ=cm",
+			"Construct the line XY=cm such that ^ZXY is 60 degrees"
+		],
+		"question": [
+			"Construct a line XZ of length 6cm and construct the line XY such that ^YXZ=60deg",
+			"Construct a line ZX of length 6cm and construct the line XY such that ^YXZ=60deg",
+			"Construct a line XZ of length 6cm and construct the line YX such that ^YXZ=60deg",
+			"Construct a line ZX of length 6cm and construct the line YX such that ^YXZ=60deg",
+			"Construct a line XZ of length 6cm and construct the line XY such that ^ZXY=60deg",
+			"Construct a line ZX of length 6cm and construct the line XY such that ^ZXY=60deg",
+			"Construct a line XZ of length 6cm and construct the line YX such that ^ZXY=60deg",
+			"Construct a line ZX of length 6cm and construct the line YX such that ^ZXY=60deg"
+		]
+	},
+	{
+		"sentence_id": 5,
+		"command": ["wdl-XY", "sa-YX~Y-Z", "pdl-XZ"],
+		"question_step": [
+			"Construct the line XY=cm",
+			"Construct the line YZ=cm such that ^XYZ is 60 degrees",
+			"Connect X and Z"
+		],
+		"question": [
+			"Construct the triangle XYZ such that XY=cm, ^XYZ=60deg and YZ=cm",
+			"Construct the triangle XYZ such that XY=cm, ^ZYX=60deg and YZ=cm",
+			"Construct the triangle XYZ such that XY=cm, ^XYZ=60deg and ZY=cm",
+			"Construct the triangle XYZ such that XY=cm, ^ZYX=60deg and ZY=cm",
+			"Construct the triangle XYZ such that YX=cm, ^ZYX=60deg and YZ=cm",
+			"Construct the triangle XYZ such that YX=cm, ^XYZ=60deg and YZ=cm",
+			"Construct the triangle XYZ such that YX=cm, ^XYZ=60deg and ZY=cm",
+			"Construct the triangle XYZ such that YX=cm, ^ZYX=60deg and ZY=cm",
+
+			"Construct the triangle YZX such that XY=cm, ^XYZ=60deg and YZ=cm",
+			"Construct the triangle YZX such that XY=cm, ^XYZ=60deg and ZY=cm",
+			"Construct the triangle YZX such that XY=cm, ^ZYX=60deg and YZ=cm",
+			"Construct the triangle YZX such that XY=cm, ^ZYX=60deg and ZY=cm",
+			"Construct the triangle YZX such that YX=cm, ^XYZ=60deg and YZ=cm",
+			"Construct the triangle YZX such that YX=cm, ^XYZ=60deg and ZY=cm",
+			"Construct the triangle YZX such that YX=cm, ^ZYX=60deg and YZ=cm",
+			"Construct the triangle YZX such that YX=cm, ^ZYX=60deg and ZY=cm",
+
+			"Construct the triangle ZYX such that YX=cm, ^XYZ=60deg and YZ=cm",
+			"Construct the triangle ZYX such that XY=cm, ^XYZ=60deg and YZ=cm",
+			"Construct the triangle ZYX such that XY=cm, ^XYZ=60deg and ZY=cm",
+			"Construct the triangle ZYX such that YX=cm, ^XYZ=60deg and ZY=cm",
+			"Construct the triangle ZYX such that XY=cm, ^ZYX=60deg and YZ=cm",
+			"Construct the triangle ZYX such that YX=cm, ^ZYX=60deg and YZ=cm",
+			"Construct the triangle ZYX such that XY=cm, ^ZYX=60deg and ZY=cm",
+			"Construct the triangle ZYX such that YX=cm, ^ZYX=60deg and ZY=cm"
+		]
+	},
+	{
+		"sentence_id": 6,
+		"command": ["wdl-XY", "pp-XY~Y-Z"],
+		"question": [
+			"Construct the triangle XYZ such that XY=cm, ^XYZ=90deg and YZ=cm",
+			"Construct the triangle XYZ such that YX=cm, ^XYZ=90deg and YZ=cm",
+			"Construct the triangle XYZ such that XY=cm, ^ZYX=90deg and YZ=cm",
+			"Construct the triangle XYZ such that YX=cm, ^ZYX=90deg and YZ=cm",
+			"Construct the triangle XYZ such that XY=cm, ^XYZ=90deg and ZY=cm",
+			"Construct the triangle XYZ such that YX=cm, ^XYZ=90deg and ZY=cm",
+			"Construct the triangle XYZ such that XY=cm, ^ZYX=90deg and ZY=cm",
+			"Construct the triangle XYZ such that YX=cm, ^ZYX=90deg and ZY=cm",
+			"Construct the triangle YZX such that XY=cm, ^XYZ=90deg and YZ=cm",
+			"Construct the triangle YZX such that YX=cm, ^XYZ=90deg and YZ=cm",
+			"Construct the triangle YZX such that XY=cm, ^ZYX=90deg and YZ=cm",
+			"Construct the triangle YZX such that YX=cm, ^ZYX=90deg and YZ=cm",
+			"Construct the triangle YZX such that XY=cm, ^XYZ=90deg and ZY=cm",
+			"Construct the triangle YZX such that YX=cm, ^XYZ=90deg and ZY=cm",
+			"Construct the triangle YZX such that XY=cm, ^ZYX=90deg and ZY=cm",
+			"Construct the triangle YZX such that YX=cm, ^ZYX=90deg and ZY=cm",
+			"Construct the triangle ZYX such that XY=cm, ^XYZ=90deg and YZ=cm",
+			"Construct the triangle ZYX such that YX=cm, ^XYZ=90deg and YZ=cm",
+			"Construct the triangle ZYX such that XY=cm, ^ZYX=90deg and YZ=cm",
+			"Construct the triangle ZYX such that YX=cm, ^ZYX=90deg and YZ=cm",
+			"Construct the triangle ZYX such that XY=cm, ^XYZ=90deg and ZY=cm",
+			"Construct the triangle ZYX such that YX=cm, ^XYZ=90deg and ZY=cm",
+			"Construct the triangle ZYX such that XY=cm, ^ZYX=90deg and ZY=cm",
+			"Construct the triangle ZYX such that YX=cm, ^ZYX=90deg and ZY=cm"
+		]
+	},
+	{
+		"sentence_id": 7,
+		"command": ["pb-XY", "sc-XY~Z"],
+		"question_step": [
+			"Construct the perpendicular bisector of XY",
+			"Draw a semi-circle taking, the point where XY and the bisector meet(Z) and XZ as radius "
+		],
+		"question": [
+			"Construct a semicircle with diameter XY and label its center as Z",
+			"Construct a semicircle with diameter YX and label its center as Z"
+		]
+	},
+	{
+		"sentence_id": 7,
+		"command": ["ab-^XYZ+XZ~R"],
+		"question_step": [
+			"Construct the angular bisector of ^XYZ",
+			"Find where XZ and the bisector crosses, and name it as R"
+		],
+		"question": [
+			"Construct the bisector of ^XYZ, Name the point at which it meets XZ at R",
+			"Construct the bisector of ^XYZ, Name the point at which it meets ZX at R",
+			"Construct the bisector of ^XYZ, Name the point at which it meets ZX at R",
+			"Construct the bisector of ^XYZ, Name the point at which it meets XZ at R"
+		]
+	},
+	{
+		"sentence_id": 8,
+		"command": ["ab-^YXZ+YZ~R"],
+		"question_step": [
+			"Construct the angular bisector of ^YXZ",
+			"Find where YZ and the bisector crosses, and name it as R"
+		],
+		"question": [
+			"Construct the bisector of ^ZXY, Name the point at which it meets YZ at R",
+			"Construct the bisector of ^YXZ, Name the point at which it meets YZ at R",
+			"Construct the bisector of ^ZXY, Name the point at which it meets ZY at R",
+			"Construct the bisector of ^YXZ, Name the point at which it meets ZY at R"
+		]
+	},
+	{
+		"sentence_id": 9,
+		"command": ["pb-XY", "c-XY~XYm"],
+		"question_step": [
+			"Construct the perpendicular bisector of XY",
+			"Taking the point of intersection of bisector and XY meet, draw a circle taking the point of intersection and Y as radius"
+		],
+		"question": [
+			"Find the center of the circle that has XY as a diameter and construct this circle",
+			"Find the center of the circle that has YX as a diameter and construct this circle",
+			"Find the center of the circle that has XY as a diameter and construct the circle",
+			"Find the center of the circle that has YX as a diameter and construct the circle"
+		]
+	}
+]

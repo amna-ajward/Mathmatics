@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import useLine from "./useLine";
 import { convert, cmToPx, pxToCm } from "../utilities/convertUnit";
-import usePoint from "./usePoint";
-import useArc from "./useArc";
 import useIntersection from "./useIntersection";
-
-type drawProps = {
-	queries: string[];
-	canvasDimension: { w: number; h: number };
-};
-
-type getAngleProps = [
-	line0: string,
-	arc_type: string,
-	arc_order: number,
-	line1?: string
-];
+import {
+	DrawLineProps,
+	DrawArcProps,
+	DrawProps,
+	AngleProps,
+	LINE,
+	ARC,
+	POINT,
+	CORDINATES,
+} from "../types/types";
+import { useDrawContext } from "../context/DrawContextProvider";
 
 const ANGLE_OFFSETS = {
 	c: [
@@ -66,11 +62,11 @@ const ANGLE_OFFSETS = {
 			end: +Math.PI / 7,
 		},
 		{
-			start: 5,
+			start: Math.PI / 7,
 			end: Math.PI / 6,
 		},
 		{
-			start: -Math.PI / 6 - 5,
+			start: -Math.PI / 4,
 			end: Math.PI / 6,
 		},
 	],
@@ -122,32 +118,38 @@ const ANGLE_OFFSETS = {
 	],
 };
 
-export default function useDraw() {
-	const [steps, setSteps] = useState<(LINE | ARC)[]>([]);
+type UseDrawProps = {
+	setPoint: (value: POINT) => void;
+	getPoint: (name: string, referedAs?: string) => [number, number, boolean];
+	getPointDistance: (string0: string, string1: string) => number;
+	canvasRef: React.RefObject<HTMLCanvasElement>;
+};
 
-	const { setPoint, getPoint, getPointDistance } = usePoint();
-	const { drawLine } = useLine();
-	const { drawArc } = useArc();
+export default function useDraw({
+	setPoint,
+	getPoint,
+	getPointDistance,
+	canvasRef,
+}: UseDrawProps) {
+	const [steps, setSteps] = useState<(LINE | ARC)[]>([]);
+	const [animateAll, setAnimateAll] = useState(false);
+
+	let c = canvasRef.current?.getContext("2d");
 
 	useEffect(() => {
 		drawSteps(steps);
 	}, [steps]);
 
-	function draw({ queries, canvasDimension }: drawProps) {
-		globalThis.ctx!.clearRect(0, 0, canvasDimension.w, canvasDimension.h);
-		globalThis.POINTS = [];
-
-		let prevQuery = "";
-
+	function draw({ queries, canvasDimension, animateAll = false }: DrawProps) {
+		setAnimateAll(animateAll);
+		c?.clearRect(0, 0, canvasDimension.w, canvasDimension.h);
 		setSteps([]);
 
 		queries.map((query) => {
 			let [prefix, origin_data, width] = query.split("-");
 
 			let origin = origin_data?.split("~")[0] || "";
-			let origin_specific = origin_data?.split("~")[1] || "";
-
-
+			let origin_specific = origin_data?.split(/[~+]/g)[1] || "";
 
 			switch (prefix) {
 				case "wdl": //=================WIDTH DEFINED LINE ================//
@@ -160,9 +162,6 @@ export default function useDraw() {
 						let ex: number = canvasDimension.w / 2 + line_width_px;
 						let ey: number = canvasDimension.h / 2;
 
-						// (sx = 500), (ex = 300), (sy = 200), (ey = 200);
-						// (sx = 300), (sy = 300), (ex = 100), (ey = 350);
-						(sx = 100), (sy = 300), (ex = 300), (ey = 300); //strainght
 						let point0: POINT = {
 							name: origin[0],
 							x: sx,
@@ -188,6 +187,19 @@ export default function useDraw() {
 						setSteps((steps) => [...steps, line]);
 					}
 					break;
+				case "pdl":
+					{
+						if (!origin) return;
+
+						let line: LINE = {
+							sname: origin[0],
+							ename: origin[1],
+							referedAs: query,
+						};
+
+						setSteps((steps) => [...steps, line]);
+					}
+					break;
 				case "pb": //================= PERPENDICULAR BISECTOR ================//
 					{
 						if (!origin) return;
@@ -197,6 +209,7 @@ export default function useDraw() {
 						let [o_endX, o_endY] = getPoint(o_end_name);
 						let line_width_px = getPointDistance(o_start_name, o_end_name);
 						let radius = line_width_px / 1.5;
+						console.log(getPoint(o_end_name));
 						let [arc0_startAngle, arc0_endAngle] = getAngle([
 							origin,
 							prefix,
@@ -218,9 +231,6 @@ export default function useDraw() {
 						const OFFSET_X = 40 * -Math.sign(dx);
 						const OFFSET_Y =
 							40 * (dx === 0 ? 0 : Math.abs(dy / dx)) * -Math.sign(dy);
-
-						// console.log("dx: " + dx + ", dy: " + dy);
-						// console.log("offset-x:", OFFSET_X, " offset-y:", OFFSET_Y);
 
 						let lineOrigin_midpoint: POINT = {
 							name: `${origin}m`,
@@ -406,7 +416,6 @@ export default function useDraw() {
 							prefix,
 							1,
 						]);
-						console.log(defned_line);
 
 						const intersection = useIntersection({
 							shape0: { cx: pnt0_x, cy: pnt0_y, radius: arc0_radius },
@@ -451,11 +460,18 @@ export default function useDraw() {
 					break;
 				case "ab": //================= ANGLE BISECTOR ================//
 					{
+						//e.g. ab-^XYZ+XZ~R
 						if (!origin) return;
 
-						origin = origin.split("^")[1]; //An angle
-						let [first, origin_specific, last] = origin.split("");
+						const [angle, i_line, i_point_name] = query
+							.split(/[-\^+~]/)
+							.slice(2, 5);
+
+						let [first, origin_specific, last] = angle.split("");
+						console.log("first,last", first, last);
 						if (first > last) {
+							console.log("first,last");
+
 							let temp = first;
 							first = last;
 							last = temp;
@@ -508,16 +524,17 @@ export default function useDraw() {
 						let i_aa = useIntersection({
 							shape0: { cx: i_la0.x, cy: i_la0.y, radius: radius },
 							shape1: { cx: i_la1.x, cy: i_la1.y, radius: radius },
-						})[1];
+						})[0];
 
 						let dx = i_aa.x - o_specificX;
 						let dy = i_aa.y - o_specificY;
-						const OFFSET_VALUE = 70;
+						const OFFSET_VALUE = 150;
 						const OFFSET_X = OFFSET_VALUE * -Math.sign(dx);
 						const OFFSET_Y =
 							OFFSET_VALUE *
 							(dx === 0 ? 1 : Math.abs(dy / dx)) *
 							-Math.sign(dy);
+
 						let arc0: ARC = {
 							cname: origin_specific,
 							sa: arc0_startAngle,
@@ -572,6 +589,37 @@ export default function useDraw() {
 						setPoint(intersection1);
 						setPoint(intersection2);
 						setSteps((steps) => [...steps, arc0, arc1, arc2, ab_line]);
+
+						if (i_point_name) {
+							console.log("i_line", i_line);
+							let [i_line_sx, i_line_sy] = getPoint(i_line[0]);
+							let [i_line_ex, i_line_ey] = getPoint(i_line[1]);
+							let [i_x, i_y] = getPoint(intersection2.name, query);
+							let i_ll = useIntersection({
+								shape0: {
+									sx: i_line_sx,
+									sy: i_line_sy,
+									ex: i_line_ex,
+									ey: i_line_ey,
+								},
+								shape1: {
+									sx: o_specificX,
+									sy: o_specificY,
+									ex: i_x,
+									ey: i_y,
+								},
+							})[0];
+							console.log("i_ll", i_ll);
+
+							let intersection3: POINT = {
+								name: i_point_name,
+								x: i_ll.x,
+								y: i_ll.y,
+								isMark: true,
+								referedAs: query,
+							};
+							setPoint(intersection3);
+						}
 					}
 					break;
 				case "c": //================= CIRCLE =================//
@@ -715,53 +763,66 @@ export default function useDraw() {
 					console.log("WARNING: Command Not found");
 					break;
 			}
-
-			prevQuery = query;
-
-
 		});
-		// console.log("--POINTS--");
-		// console.log(globalThis.POINTS);
 	}
 
-	function drawSteps(steps) {
-		 console.log("===Drawing Calls==== ",steps);
+	function drawSteps(steps: (LINE | ARC)[]) {
+		console.log("===Drawing Calls==== ", steps);
 
-		steps.map((step, i) => {
+		steps.map((step, index: number) => {
 			if (isArc(step)) {
-				const currentArcs =steps.filter(x=>isArc(x)).slice(-2);
-				const isAnimate =currentArcs.includes(step);
+				const currentArcs = !isArc(steps[steps.length - 2])
+					? []
+					: steps.filter((x) => isArc(x)).slice(-2);
+				const isAnimate =
+					animateAll || (!!currentArcs.length && currentArcs.includes(step));
+				const animateIndex = animateAll
+					? steps.findIndex((x) => x == step)
+					: currentArcs.findIndex((x) => x == step);
 				let [cx, cy] = getPoint(step.cname, step.referedAs);
-				setTimeout(() => {
-					
-					drawArc({
-						center_name: step.cname,
-						radius: step.radius,
-						start_angle: step.sa,
-						end_angle: step.ea,
-						centerX: cx,
-						centerY: cy,
-						animate:isAnimate
-					});
-				}, isAnimate? currentArcs.findIndex(x=>x ==step) * 1000:0);
+
+				setTimeout(
+					() => {
+						drawArc(
+							{
+								center_name: step.cname,
+								radius: step.radius,
+								start_angle: step.sa,
+								end_angle: step.ea,
+								centerX: cx,
+								centerY: cy,
+								animate: animateAll || isAnimate,
+							},
+							getRandomColor()
+						);
+					},
+					isAnimate ? animateIndex * 1000 : 0
+				);
 			} else {
 				let [sx, sy, sIsMark] = getPoint(step.sname, step.referedAs);
 				let [ex, ey, eIsMark] = getPoint(step.ename, step.referedAs);
-				const isAnimate = i ==steps.length-1;
-				setTimeout(() => {
-					
-					drawLine({
-						sname: step.sname,
-						ename: step.ename,
-						sx,
-						sy,
-						ex,
-						ey,
-						sIsMark,
-						eIsMark,
-						animate:isAnimate
-					});
-				}, isAnimate && i != 0 ?2000:0);
+				// let color = getRandomColor();
+				const isAnimate = animateAll || index == steps.length - 1;
+				const animateIndex = animateAll ? steps.findIndex((x) => x == step) : 2;
+				setTimeout(
+					() => {
+						drawLine(
+							{
+								sname: step.sname,
+								ename: step.ename,
+								sx,
+								sy,
+								ex,
+								ey,
+								sIsMark,
+								eIsMark,
+								animate: isAnimate,
+							},
+							getRandomColor()
+						);
+					},
+					isAnimate ? animateIndex * 1000 : 0
+				);
 			}
 		});
 	}
@@ -787,14 +848,9 @@ export default function useDraw() {
 		} else return tilt_angle;
 	}
 
-	function getAngle([
-		line0,
-		arc_type,
-		arc_order,
-		line1,
-	]: getAngleProps): number[] {
-		let start_angle_offset,
-			end_angle_offset = 0;
+	function getAngle([line0, arc_type, arc_order, line1]: AngleProps): number[] {
+		let start_angle_offset: number = 0;
+		let end_angle_offset: number = 0;
 
 		for (const [key, value] of Object.entries(ANGLE_OFFSETS)) {
 			if (key === arc_type) {
@@ -836,5 +892,91 @@ export default function useDraw() {
 		return [start_angle, end_angle];
 	}
 
-	return [draw];
+	function drawLine(
+		{ sname, ename, sx, sy, ex, ey, sIsMark, eIsMark, animate }: DrawLineProps,
+		color: string
+	) {
+		c?.beginPath();
+		c!.font = "30px Arial";
+		c!.textAlign = "center";
+		c!.lineWidth = 0.5;
+		c!.textBaseline = "middle";
+		c!.strokeStyle = color;
+		const maxI = 20;
+		let i = 0;
+		let amount = 0;
+		if (!animate) {
+			c!.lineWidth = 2;
+			c?.moveTo(sx, sy);
+			c?.lineTo(ex, ey);
+			c?.stroke();
+		} else {
+			c!.lineWidth = 1;
+			const myInterval = setInterval(function () {
+				if (i >= maxI) clearInterval(myInterval);
+				amount += 0.05;
+				c?.moveTo(sx, sy);
+				c?.lineTo(sx + (ex - sx) * amount, sy + (ey - sy) * amount);
+				c?.stroke();
+				i += 1;
+			}, 30);
+		}
+
+		c!.fillStyle = color;
+		if (sIsMark) c?.fillText(sname, sx, sy);
+		if (eIsMark) c?.fillText(ename, ex, ey);
+	}
+
+	function drawArc(
+		{
+			centerX,
+			centerY,
+			radius,
+			start_angle,
+			end_angle,
+			current,
+			animate,
+		}: DrawArcProps,
+		color: string
+	) {
+		// const c = document.querySelector("canvas")?.getContext("2d");
+
+		if (animate) {
+			let currentAngel = current ? current : start_angle;
+			c!.lineWidth = 1;
+			c?.beginPath();
+			c?.arc(centerX, centerY, radius, start_angle, currentAngel);
+			c!.strokeStyle = color;
+			c?.stroke();
+			currentAngel += 0.07;
+			if (currentAngel < end_angle) {
+				window.requestAnimationFrame(() =>
+					drawArc(
+						{
+							centerX,
+							centerY,
+							radius,
+							start_angle,
+							end_angle,
+							current: currentAngel,
+							animate: true,
+						},
+						color
+					)
+				);
+			}
+		} else {
+			c?.beginPath();
+			c?.arc(centerX, centerY, radius, start_angle, end_angle);
+			c?.stroke();
+		}
+	}
+
+	function getRandomColor() {
+		return `rgb(${(Math.random() + 0.5) * 253},${(Math.random() + 0.5) * 254},${
+			(Math.random() + 0.5) * 254
+		})`;
+	}
+
+	return { draw };
 }
