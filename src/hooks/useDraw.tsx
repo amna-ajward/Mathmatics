@@ -476,6 +476,8 @@ export default function useDraw({
 							first = last;
 							last = temp;
 						}
+						console.log("i_point_name", i_point_name);
+						let i2_name = i_point_name !== "" ? i_point_name : "i2";
 
 						let line0_name = origin_specific + first;
 						let line1_name = origin_specific + last;
@@ -572,7 +574,7 @@ export default function useDraw({
 						};
 
 						let intersection2: POINT = {
-							name: "i2",
+							name: i2_name,
 							x: i_aa.x - OFFSET_X,
 							y: i_aa.y - OFFSET_Y,
 							isMark: false,
@@ -618,6 +620,7 @@ export default function useDraw({
 								isMark: true,
 								referedAs: query,
 							};
+
 							setPoint(intersection3);
 						}
 					}
